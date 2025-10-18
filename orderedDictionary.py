@@ -7,7 +7,58 @@ class OrderedDictionary:
 3.	Updating the value for a key doesn’t change its order, however removing and adding back a key changes its order (on insertion it will be added at the end)
 4.	If the dictionary is indexed using an integer, it is treated as the index of the key insertion. So myOrderedDictionary[0] will give the value for the oldest key, myOrderedDictionary[1] will give value for the second oldest key inserted, etc.
 '''
-    pass
+    def __init__(self):
+        self.__dictionary = {}
+        self.__listOfkeys = []
+    
+    # Internal helper to validate index
+    def __validate_index(self, index):
+        if not isinstance(index, (str, int)):
+            raise ValueError(f"Index must be a string or an integer, got {type(index).__name__}")
+    
+    # Convert integer index to key
+    def __key_from_index(self, index):
+        if isinstance(index, int):
+            if index < 0 or index >= len(self.__listOfkeys):
+                raise IndexError("Integer index out of range")
+            return self.__listOfkeys[index]
+        return index # if string, it is already a key. 
+    
+    # Get item
+    def __getitem__(self, index):
+        self.__validate_index(index)
+        key = self.__key_from_index(index)
+        return self.__dictionary[key]
+    
+    # Set item
+    def __setitem__(self, index, value):
+        self.__validate_index(index)
+        if isinstance(index, str):
+            key = index
+        else:
+            key = self.__key_from_index(index)
+        
+        if not isinstance(key, str):
+            raise ValueError("Key must be a string")
+        
+        # If key exists, update value without changing order
+        if key in self.__dictionary:
+            self.__dictionary[key] = value
+        else:
+            # New key: add at end
+            self.__dictionary[key] = value
+            self.__listOfkeys.append(key)
+
+    # Get lenght 
+    def __len__(self):
+        return len(self.__listOfkeys)
+    
+    # Iterator (over keys)
+    def __iter__(self):
+        
+
+
+
 
 def main():
     sep = "-"*50
