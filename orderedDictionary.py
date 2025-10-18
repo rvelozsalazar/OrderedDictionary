@@ -1,3 +1,18 @@
+# ----------------------------------------------------------------------------
+# Name: Richard Veloz Salazar
+# Class: Data Structures and Algorithms in Python
+# Date: October 15, 2025
+# Assignment: OrderedDictionary Implementation
+#
+#
+# Description:
+# This program implements a custom OrderedDictionary class that maintains
+# key-value pairs in insertion order while allowing both string and integer
+# indexing. The class ensures keys are strings, preserves insertion order 
+# even when items are updated, and provides methods for safe access,
+# iteration, and modification without altering order unintentionally.
+# ----------------------------------------------------------------------------
+#
 #Program to define an OrderedDictionary class and some client code
 
 class OrderedDictionary:
@@ -55,87 +70,106 @@ class OrderedDictionary:
     
     # Iterator (over keys)
     def __iter__(self):
-        
+        for key in  self.__listOfkeys:
+            yield key
+    
+    # pop by key or index
+    def pop(self, index):
+        self.__validate_index(index)
+        key = self.__key_from_index(index)
+        value = self.__dictionary.pop(key)
+        self.__listOfkeys.remove(key)
+        return value
+    
+    # return iterator of keys
+    def keys(self):
+        for key in self.__listOfkeys:
+            yield key
 
+    # return iterator of values
+    def values(self):
+        for key in self.__listOfkeys:
+            yield self.__dictionary[key]
 
-
-
+    # return iterator of (key, value) pairs
+    def items(self):
+        for key in self.__listOfkeys:
+            yield (key, self.__dictionary[key])
+    
 def main():
     sep = "-"*50
     d = OrderedDictionary()
-##    #Add three key-value pairs
-##    d['a'] = 1
-##    d['b'] = 2
-##    d['c'] = 3
-##    d['d'] = 4
-##
-##    print("len(d):", len(d))
-##    print('d[1]: ', d[1]) # Should print 2
-##
-##    #Update value for key 'b'
-##    print("Updating d['b'] = 8...")
-##    d['b'] = 8
-##    print('d[1]: ', d[1]) # Should print 8
-##    print(sep)
-##    print("updating with integer index d[0] = 0. Should update d['a']")
-##    d[0] = 0 # update using integer index. Should update d['a']
-##    print("d['a']: ", d['a']) # Should print 0
-##    print(sep)
-##    #iterate using __iter__ method
-##    print("Iterating ...")
-##    for m in d:
-##        print(m, end=",")
-##    print("\n"+sep)
-##
-##    #iterate using keys() method
-##    print("Iterating using keys()...")
-##    for m in d.keys():
-##        print(m, end=",")
-##    print("\n"+sep)
-##
-##    #removing 'b'
-##    print("Removing 'b'...pop('b')")
-##    print(d.pop('b')) #should print 8
-##    print(sep)
-##    #iterate using values() method
-##    print("Iterating using values()...")
-##    for m in d.values():
-##        print(m, end=",")
-##    print("\n"+sep)
-##    
-##    #adding 'b' again
-##    print("adding 'b' again d['b'] = 10")
-##    d['b'] = 10
-##    print(sep)    
-##    #removing 'd'
-##    print("Removing key 'd'...pop(2)")
-##    print(d.pop(2)) #should print 4
-##    print(sep)
-##    #iterate using items() method
-##    print("Iterating using items()...")
-##    for m in d.items():
-##        print(m, end=",")
-##    print("\n"+sep)
-##    
-##    try:
-##        print("Trying d[3.0] = 5...")
-##        d[3.0] = 5 # should raise ValueError
-##    except Exception as e:
-##        print(e)
-##    print(sep)
-##    try:
-##        print("Trying d[5]....")
-##        print(d[5]) # should raise IndexError
-##    except Exception as e:
-##        print(e)
-##    print(sep)
-##    try:
-##        print("Trying pop[3.1412]....")
-##        print(d.pop(3.1412)) # should raise ValueError
-##    except Exception as e:
-##        print(e)
-##    print(sep)    
+    #Add three key-value pairs
+    d['a'] = 1
+    d['b'] = 2
+    d['c'] = 3
+    d['d'] = 4
+
+    print("len(d):", len(d))
+    print('d[1]: ', d[1]) # Should print 2
+
+    #Update value for key 'b'
+    print("Updating d['b'] = 8...")
+    d['b'] = 8
+    print('d[1]: ', d[1]) # Should print 8
+    print(sep)
+    print("updating with integer index d[0] = 0. Should update d['a']")
+    d[0] = 0 # update using integer index. Should update d['a']
+    print("d['a']: ", d['a']) # Should print 0
+    print(sep)
+    #iterate using __iter__ method
+    print("Iterating ...")
+    for m in d:
+        print(m, end=",")
+    print("\n"+sep)
+
+    #iterate using keys() method
+    print("Iterating using keys()...")
+    for m in d.keys():
+        print(m, end=",")
+    print("\n"+sep)
+
+    #removing 'b'
+    print("Removing 'b'...pop('b')")
+    print(d.pop('b')) #should print 8
+    print(sep)
+    #iterate using values() method
+    print("Iterating using values()...")
+    for m in d.values():
+        print(m, end=",")
+    print("\n"+sep)
+
+    #adding 'b' again
+    print("adding 'b' again d['b'] = 10")
+    d['b'] = 10
+    print(sep)
+    #removing 'd'
+    print("Removing key 'd'...pop(2)")
+    print(d.pop(2)) #should print 4
+    print(sep)
+    #iterate using items() method
+    print("Iterating using items()...")
+    for m in d.items():
+        print(m, end=",")
+    print("\n"+sep)
+
+    try:
+        print("Trying d[3.0] = 5...")
+        d[3.0] = 5 # should raise ValueError
+    except Exception as e:
+        print(e)
+    print(sep)
+    try:
+        print("Trying d[5]....")
+        print(d[5]) # should raise IndexError
+    except Exception as e:
+        print(e)
+    print(sep)
+    try:
+        print("Trying pop[3.1412]....")
+        print(d.pop(3.1412)) # should raise ValueError
+    except Exception as e:
+        print(e)
+    print(sep)
 if __name__ == "__main__":
     main()
-
-    
